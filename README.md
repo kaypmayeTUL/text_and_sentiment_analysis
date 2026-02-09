@@ -293,7 +293,7 @@ These materials are provided for educational purposes and are free to use.
 ```
 Python for Text Analysis Workshop
 Howard-Tilton Memorial Library, Tulane University
-[Year]
+2026
 ```
 
 ---
@@ -328,4 +328,3 @@ nltk.download('vader_lexicon')
 **Last Updated:** February 2026  
 **Version:** 1.0
 
-For questions or feedback, please contact Howard-Tilton Memorial Library Research Services.
