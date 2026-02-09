@@ -27,7 +27,7 @@ Undergraduate and graduate students in:
 
 ### Presentation
 
-- **`python_text_analysis_detailed.html`** - Interactive slide-based presentation
+- **`index.html`** - Interactive slide-based presentation
   - Navigate using arrow keys, spacebar, or navigation controls
   - 24 comprehensive slides covering both techniques
   - Detailed code explanations with inline comments
@@ -59,7 +59,7 @@ Undergraduate and graduate students in:
 ### Datasets
 
 #### Political Speeches Dataset
-- **File:** `political_speeches.csv`
+- **File:** `data.xlsx`
 - **Download:** [https://tulane.box.com/s/apf4sqxan1b15qbk57dy7enkl8u4k3t1](https://tulane.box.com/s/apf4sqxan1b15qbk57dy7enkl8u4k3t1)
 - **Structure:**
   - `Speech_ID` - Unique identifier
@@ -69,7 +69,7 @@ Undergraduate and graduate students in:
 - **Use:** Topic modeling to discover policy themes (economy, climate, healthcare, etc.)
 
 #### Social Commentary Dataset
-- **File:** `social_commentary.csv`
+- **File:** `data.xlsx`
 - **Download:** [https://tulane.box.com/s/0d0ntev9dqzkw53n51n6ggtphdsw59f7](https://tulane.box.com/s/0d0ntev9dqzkw53n51n6ggtphdsw59f7)
 - **Structure:**
   - `Comment` - Text of commentary
@@ -83,7 +83,7 @@ Undergraduate and graduate students in:
 
 ### Option 1: View the Presentation
 
-1. Open `python_text_analysis_detailed.html` in any web browser
+1. Open `index.html` in any web browser
 2. Navigate through slides using:
    - Arrow keys (← →)
    - Spacebar (forward)
@@ -255,7 +255,7 @@ Tulane University
 ```
 workshop-materials/
 │
-├── python_text_analysis_detailed.html    # Interactive presentation (24 slides)
+├── index.html    # Interactive presentation (24 slides)
 ├── topic_modeling_lda.ipynb              # Topic modeling Jupyter notebook
 ├── sentiment_analysis_vader.ipynb        # Sentiment analysis Jupyter notebook
 ├── README.md                             # This file
