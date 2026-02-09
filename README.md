@@ -60,12 +60,12 @@ Undergraduate and graduate students in:
 
 #### Political Speeches Dataset
 - **File:** `data.xlsx`
-- **Download:** [https://tulane.box.com/s/apf4sqxan1b15qbk57dy7enkl8u4k3t1](https://tulane.box.com/s/apf4sqxan1b15qbk57dy7enkl8u4k3t1)
+- **Download:** [https://tulane.box.com/s/apf4sqxan1b15qbk57dy7enkl8u4k3t1](https://tulane.box.com/s/re0651df54nk6inc4px41ev8lvox84at)
 - **Structure:**
   - `Speech_ID` - Unique identifier
   - `Speaker` - Political leader name
   - `Text` - Full speech text
-- **Size:** 15 political speeches
+- **Size:** 50 political speeches
 - **Use:** Topic modeling to discover policy themes (economy, climate, healthcare, etc.)
 
 #### Social Commentary Dataset
