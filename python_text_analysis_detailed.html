@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python for Text Analysis | Tulane University Libraries</title>
+    <style>
+        :root {
+            --tulane-green: #285C4D;
+            --tulane-green-dark: #1e4a3d;
+            --tulane-blue: #71C5E8;
+            --tulane-blue-light: #a8ddf2;
+            --storm-shutters: #00778B;
+            --medallion: #CC9900;
+            --olive-branch: #658D1B;
+            --verdigris: #71DBD4;
+            --light-bg: #f8fafb;
+            --text-dark: #2c3e50;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--tulane-green);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .nav-title {
+            color: var(--white);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-selector {
+            padding: 8px 12px;
+            border: 2px solid var(--tulane-blue);
+            border-radius: 6px;
+            background: var(--white);
+            color: var(--tulane-green);
+            font-size: 0.95rem;
+            cursor: pointer;
+            min-width: 350px;
+        }
+
+        .nav-btn {
+            background: var(--tulane-blue);
+            color: var(--tulane-green-dark);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .page-indicator {
+            color: var(--tulane-blue);
+            font-size: 0.9rem;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* Main content */
+        .presentation {
+            margin-top: 70px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Title slide */
+        .title-slide {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, var(--tulane-green) 0%, var(--storm-shutters) 100%);
+            border-radius: 16px;
+            color: var(--white);
+            min-height: calc(100vh - 130px);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .title-slide.active {
+            display: flex;
+        }
+
+        .title-slide h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.5rem;
+            color: var(--tulane-blue-light);
+            margin-bottom: 40px;
+        }
+
+        .title-slide .presenter {
+            font-size: 1.3rem;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid var(--tulane-blue);
+            display: inline-block;
+        }
+
+        .title-slide .institution {
+            font-size: 1.1rem;
+            color: var(--tulane-blue-light);
+            margin-top: 10px;
+        }
+
+        /* Content slides */
+        .content-slide {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 45px 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            min-height: calc(100vh - 130px);
+        }
+
+        .content-slide h3 {
+            color: var(--storm-shutters);
+            font-size: 1.45rem;
+            margin: 35px 0 20px 0;
+            line-height: 1.4;
+        }
+
+        .content-slide h4 {
+            color: var(--tulane-green);
+            font-size: 1.2rem;
+            margin: 25px 0 15px 0;
+            line-height: 1.4;
+        }
+
+        .content-slide p {
+            margin-bottom: 18px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .content-slide ul, .content-slide ol {
+            margin: 20px 0 20px 30px;
+        }
+
+        .content-slide li {
+            margin-bottom: 14px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .content-slide li ul, .content-slide li ol {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #e8f5f1 0%, #e1f4fb 100%);
+            border-left: 6px solid var(--tulane-green);
+            padding: 30px 35px;
+            margin: 35px 0;
+            border-radius: 0 12px 12px 0;
+            line-height: 2;
+        }
+
+        .highlight-box ul, .highlight-box ol {
+            margin-top: 18px;
+            margin-bottom: 12px;
+        }
+
+        .highlight-box li {
+            margin-bottom: 12px;
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #fef3e2 0%, #ffecd2 100%);
+            border-left-color: var(--medallion);
+        }
+
+        .highlight-box.tip {
+            background: linear-gradient(135deg, #e8f4fd 0%, #dbeafe 100%);
+            border-left-color: var(--tulane-blue);
+        }
+
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 35px 40px;
+            border-radius: 12px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 1.05rem;
+            overflow-x: auto;
+            margin: 30px 0;
+            line-height: 2.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            letter-spacing: 0.3px;
+        }
+
+        .code-example .comment {
+            color: #68d391;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .code-example .highlight {
+            color: var(--tulane-blue);
+            font-weight: 600;
+        }
+
+        .code-example .operator {
+            color: var(--medallion);
+            font-weight: 700;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .column {
+            background: #f8f9fa;
+            padding: 30px 35px;
+            border-radius: 12px;
+            line-height: 2;
+        }
+
+        .column h4 {
+            color: var(--tulane-green);
+            margin-top: 0;
+            margin-bottom: 18px;
+        }
+
+        .math-box {
+            background: #f8f9fa;
+            border: 2px solid var(--storm-shutters);
+            border-radius: 12px;
+            padding: 30px 35px;
+            margin: 30px 0;
+            font-family: 'Georgia', serif;
+        }
+
+        .math-box h4 {
+            color: var(--storm-shutters);
+            margin-top: 0;
+            margin-bottom: 18px;
+            font-size: 1.3rem;
+        }
+
+        .math-formula {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 1.2rem;
+            font-family: 'Georgia', serif;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .data-table th {
+            background: var(--tulane-green);
+            color: var(--white);
+            padding: 18px 24px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .data-table tr:hover {
+            background: #e8f5f1;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: var(--tulane-blue);
+            transition: width 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .nav-title {
+                width: 100%;
+                text-align: center;
+            }
+
+            .page-selector {
+                min-width: 200px;
+            }
+
+            .title-slide h1 {
+                font-size: 2rem;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .content-slide {
+                padding: 30px 22px;
+            }
+
+            .content-slide h2 {
+                font-size: 1.7rem;
+                margin-bottom: 25px;
+            }
+
+            .content-slide h3 {
+                font-size: 1.3rem;
+                margin: 28px 0 16px 0;
+            }
+
+            .code-example {
+                padding: 25px 22px;
+                font-size: 0.92rem;
+                line-height: 2.2;
+            }
+        }
+
+        @media print {
+            .nav-container, .progress-bar {
+                display: none;
+            }
+
+            .slide {
+                display: block !important;
+                page-break-after: always;
+            }
+
+            .presentation {
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <div class="nav-title">Python for Text Analysis Workshop</div>
+        <div class="nav-controls">
+            <select class="page-selector" id="pageSelector" onchange="jumpToSlide(this.value)">
+                <option value="0">1. Title - Python for Text Analysis</option>
+                <option value="1">2. Workshop Overview</option>
+                <option value="2">3. Workshop Datasets</option>
+                <option value="3">4. Part 1: Topic Modeling with LDA</option>
+                <option value="4">5. What is Topic Modeling?</option>
+                <option value="5">6. Required Libraries for Topic Modeling</option>
+                <option value="6">7. Step 1: Load Your Corpus</option>
+                <option value="7">8. Step 2: Text Preprocessing</option>
+                <option value="8">9. Step 3: Vectorization - The Math Behind It</option>
+                <option value="9">10. Vectorization: Bag-of-Words Model Explained</option>
+                <option value="10">11. Step 3 Continued: CountVectorizer Code</option>
+                <option value="11">12. Understanding the Document-Term Matrix</option>
+                <option value="12">13. Step 4: Train the LDA Model</option>
+                <option value="13">14. How LDA Works: The Math</option>
+                <option value="14">15. Step 5: Interpret Topics</option>
+                <option value="15">16. Example: Discovered Topics</option>
+                <option value="16">17. Part 2: Sentiment Analysis</option>
+                <option value="17">18. What is Sentiment Analysis?</option>
+                <option value="18">19. VADER: How It Works</option>
+                <option value="19">20. Sentiment Analysis: The Code</option>
+                <option value="20">21. Understanding VADER Scoring</option>
+                <option value="21">22. Categorical Analysis & Visualization</option>
+                <option value="22">23. Key Takeaways</option>
+                <option value="23">24. Resources & Contact</option>
+            </select>
+            <div class="page-indicator" id="pageIndicator">1 / 24</div>
+            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Presentation -->
+    <div class="presentation">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <h1>Python for Text Analysis</h1>
+            <div class="subtitle">Topic Modeling & Sentiment Analysis for Social Sciences</div>
+            <div class="presenter">Howard-Tilton Memorial Library</div>
+            <div class="institution">Tulane University</div>
+        </div>
+
+        <!-- Slide 2: Overview -->
+        <div class="slide content-slide">
+            <h3>Workshop Overview</h3>
+            <p>This workshop introduces two powerful Python techniques for analyzing text data in social science research:</p>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h4>🔍 Topic Modeling (LDA)</h4>
+                    <p>Discover hidden themes in political speeches, academic papers, or social media posts using <strong>unsupervised machine learning</strong>.</p>
+                    <p style="margin-top: 15px;"><strong>Key Technique:</strong> Latent Dirichlet Allocation</p>
+                </div>
+                <div class="column">
+                    <h4>💬 Sentiment Analysis</h4>
+                    <p>Quantify opinions and emotions in text, then compare sentiment across categories like media source or political affiliation.</p>
+                    <p style="margin-top: 15px;"><strong>Key Tool:</strong> VADER Sentiment Analyzer</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Target Audience</h4>
+                <p>Undergraduate and graduate students in Political Science, Sociology, Communications, Linguistics, and Digital Humanities. Basic Python familiarity helpful but not required.</p>
+            </div>
+
+            <div class="highlight-box warning">
+                <h4>Prerequisites</h4>
+                <p>Python 3.7+ with these libraries: <strong>pandas, nltk, scikit-learn, seaborn, matplotlib</strong></p>
+                <p>All code examples available in Google Colab notebooks (links at the end).</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Datasets -->
+        <div class="slide content-slide">
+            <h3>Workshop Datasets</h3>
+            <p>We'll use two real-world datasets throughout this workshop. You can download them to follow along:</p>
+
+            <div class="highlight-box tip">
+                <h4>📊 Political Speeches Dataset</h4>
+                <p><strong>File:</strong> political_speeches.csv</p>
+                <p><strong>Structure:</strong></p>
+                <ul>
+                    <li><strong>Speech_ID:</strong> Unique identifier for each speech</li>
+                    <li><strong>Speaker:</strong> Name of the political leader (Leader A, B, or C)</li>
+                    <li><strong>Text:</strong> Full text of the political speech</li>
+                </ul>
+                <p><strong>Size:</strong> 15 political speeches across multiple policy topics</p>
+                <p><strong>Use:</strong> Topic modeling with LDA to discover themes like economy, climate, healthcare, infrastructure, and security</p>
+                <p style="margin-top: 15px;"><strong>📥 Download:</strong> <a href="https://tulane.box.com/s/apf4sqxan1b15qbk57dy7enkl8u4k3t1" target="_blank">Political Speeches Dataset</a></p>
+            </div>
+
+            <div class="highlight-box tip">
+                <h4>💬 Social Commentary Dataset</h4>
+                <p><strong>File:</strong> social_commentary.csv</p>
+                <p><strong>Structure:</strong></p>
+                <ul>
+                    <li><strong>Comment:</strong> Text of social/political commentary about policies</li>
+                    <li><strong>Source:</strong> Category of where the comment originated (News Outlet A, News Outlet B, Think Tank A, Government Report X, Social Forum Z)</li>
+                </ul>
+                <p><strong>Size:</strong> 15 comments from different sources</p>
+                <p><strong>Use:</strong> Sentiment analysis with VADER to compare opinions across different media sources</p>
+                <p style="margin-top: 15px;"><strong>📥 Download:</strong> <a href="https://tulane.box.com/s/0d0ntev9dqzkw53n51n6ggtphdsw59f7" target="_blank">Social Commentary Dataset</a></p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Part 1 Intro -->
+        <div class="slide content-slide">
+            <h3>Part 1: Topic Modeling with LDA</h3>
+            <div class="highlight-box tip">
+                <h4>What You'll Learn</h4>
+                <ul>
+                    <li>How to load and preprocess text data</li>
+                    <li>The mathematics behind text vectorization (Bag-of-Words)</li>
+                    <li>How Latent Dirichlet Allocation discovers topics</li>
+                    <li>Interpreting and evaluating discovered themes</li>
+                </ul>
+            </div>
+
+            <p style="font-size: 1.2rem; margin-top: 30px;">We'll work through a complete example using political speeches to discover policy themes like economy, healthcare, and environment.</p>
+        </div>
+
+        <!-- Slide 5: What is Topic Modeling -->
+        <div class="slide content-slide">
+            <h3>What is Topic Modeling?</h3>
+            <p><strong>Topic Modeling</strong> is a form of unsupervised machine learning that automatically discovers themes within a collection of documents.</p>
+
+            <h3>LDA's Core Assumptions</h3>
+            <ol>
+                <li><strong>Documents are mixtures of topics</strong>
+                    <ul>
+                        <li>A political speech might be: 60% economy + 30% healthcare + 10% education</li>
+                        <li>Another speech might be: 80% foreign policy + 20% defense</li>
+                    </ul>
+                </li>
+                <li><strong>Topics are mixtures of words</strong>
+                    <ul>
+                        <li>The "economy" topic contains: jobs, growth, market, trade, employment</li>
+                        <li>The "healthcare" topic contains: medical, patients, insurance, hospitals, coverage</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <div class="highlight-box">
+                <h4>Why "Unsupervised"?</h4>
+                <p>Unlike supervised learning (which requires labeled training data), LDA discovers topics automatically by analyzing patterns of word co-occurrence. You don't need to tell it what the topics are in advance!</p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Required Libraries -->
+        <div class="slide content-slide">
+            <h3>Required Libraries for Topic Modeling</h3>
+            <div class="code-example"><span class="comment"># Import necessary libraries for topic modeling</span>
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+from nltk.corpus import stopwords</div>
+
+            <h3>What Each Library Does</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Library</th>
+                        <th>Purpose</th>
+                        <th>Key Functions We'll Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>pandas</strong></td>
+                        <td>Data manipulation and loading our corpus from CSV files</td>
+                        <td>read_csv(), groupby(), apply()</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CountVectorizer</strong></td>
+                        <td>Converts text into numerical word count vectors</td>
+                        <td>fit_transform(), get_feature_names_out()</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LatentDirichletAllocation</strong></td>
+                        <td>The LDA algorithm that discovers topics</td>
+                        <td>fit(), components_</td>
+                    </tr>
+                    <tr>
+                        <td><strong>nltk.stopwords</strong></td>
+                        <td>Provides list of common words to filter out</td>
+                        <td>words('english')</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 7: Load Data -->
+        <div class="slide content-slide">
+            <h3>Step 1: Load Your Corpus</h3>
+            <div class="code-example"><span class="comment"># Load the corpus of political speeches from a CSV file</span>
+<span class="comment"># The CSV contains columns: Speech_ID, Speaker, Text</span>
+df = pd.<span class="highlight">read_csv</span>('political_speeches.csv')
+
+<span class="comment"># Examine the structure of our data</span>
+print(df.<span class="highlight">head</span>())
+<span class="comment"># This shows the first 5 speeches</span>
+
+<span class="comment"># Check the dimensions</span>
+print(<span class="highlight">f"Total speeches: {len(df)}"</span>)
+print(<span class="highlight">f"Columns: {df.columns.tolist()}"</span>)</div>
+
+            <h3>Understanding the Code</h3>
+            <ul>
+                <li><strong>pd.read_csv()</strong> - Loads the CSV file into a DataFrame (pandas' table structure)</li>
+                <li><strong>df.head()</strong> - Displays first 5 rows to verify data loaded correctly</li>
+                <li><strong>len(df)</strong> - Counts total number of speeches in our corpus</li>
+                <li><strong>df.columns</strong> - Shows what information we have for each speech</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h4>Our Sample Data</h4>
+                <p><strong>Example speech:</strong> "We must focus relentlessly on job creation, reducing market uncertainty, and ensuring sustained economic growth. A robust economy is our priority."</p>
+                <p style="margin-top: 12px;">Total corpus: 15 political speeches from 3 different speakers</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Preprocessing -->
+        <div class="slide content-slide">
+            <h3>Step 2: Text Preprocessing</h3>
+            <p>Before we can analyze text mathematically, we need to clean it. The most important step is removing <strong>stop words</strong>.</p>
+
+            <div class="code-example"><span class="comment"># Import English stop words from NLTK</span>
+<span class="comment"># Stop words are common words that don't carry much meaning</span>
+from nltk.corpus import stopwords
+
+<span class="comment"># Get the list of English stop words</span>
+stop_words = stopwords.<span class="highlight">words</span>('english')
+
+<span class="comment"># See what stop words look like</span>
+print(<span class="highlight">f"Total stop words: {len(stop_words)}"</span>)
+print(<span class="highlight">f"Examples: {stop_words[:20]}"</span>)
+<span class="comment"># Output: ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'the', 'a', 'an', ...]</span></div>
+
+            <h3>Why Remove Stop Words?</h3>
+            <div class="two-column">
+                <div class="column">
+                    <h4>Without Stop Word Removal</h4>
+                    <p>Top words: <em>the, is, a, and, of, to, in...</em></p>
+                    <p style="color: #d32f2f; margin-top: 10px;">❌ Not helpful for finding topics!</p>
+                </div>
+                <div class="column">
+                    <h4>With Stop Word Removal</h4>
+                    <p>Top words: <em>economy, jobs, healthcare, policy, growth...</em></p>
+                    <p style="color: #388e3c; margin-top: 10px;">✓ Reveals actual themes!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Vectorization Math -->
+        <div class="slide content-slide">
+            <h3>Step 3: Vectorization - The Math Behind It</h3>
+            <p>Computers can't understand words directly. We must convert text into numbers. The <strong>Bag-of-Words</strong> model is the foundation of this transformation.</p>
+
+            <div class="math-box">
+                <h4>The Bag-of-Words Concept</h4>
+                <p>Imagine each document as a "bag" containing words. We count how many times each word appears, ignoring grammar and word order.</p>
+                
+                <div class="math-formula">
+                    Vector(document) = [count(word₁), count(word₂), ..., count(wordₙ)]
+                </div>
+            </div>
+
+            <h3>Simple Example</h3>
+            <div class="highlight-box tip">
+                <p><strong>Vocabulary (all unique words):</strong> ["economy", "jobs", "growth", "healthcare", "policy"]</p>
+                <p style="margin-top: 15px;"><strong>Document 1:</strong> "Economy and jobs drive growth"<br>
+                → Vector: [1, 1, 1, 0, 0]</p>
+                <p style="margin-top: 15px;"><strong>Document 2:</strong> "Healthcare policy needs growth"<br>
+                → Vector: [0, 0, 1, 1, 1]</p>
+            </div>
+
+            <p style="margin-top: 25px;">Each position in the vector represents a word from our vocabulary, and the number indicates how many times that word appears in the document.</p>
+        </div>
+
+        <!-- Slide 10: Vectorization Model Explained -->
+        <div class="slide content-slide">
+            <p>When we vectorize a corpus, we create a <strong>matrix</strong> where:</p>
+            <ul>
+                <li>Each <strong>row</strong> represents one document (speech)</li>
+                <li>Each <strong>column</strong> represents one unique word in the entire corpus</li>
+                <li>Each <strong>cell</strong> contains the count of that word in that document</li>
+            </ul>
+
+            <div class="math-box">
+                <h4>Matrix Representation</h4>
+                <table class="data-table" style="margin-top: 20px; font-size: 0.95rem;">
+                    <thead>
+                        <tr>
+                            <th>Document</th>
+                            <th>economy</th>
+                            <th>jobs</th>
+                            <th>growth</th>
+                            <th>healthcare</th>
+                            <th>climate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Speech 1</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>Speech 2</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>Speech 3</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 20px;"><strong>Matrix dimensions:</strong> 15 speeches × ~500 unique words = 15×500 matrix</p>
+            </div>
+        </div>
+
+        <!-- Slide 11: CountVectorizer Code -->
+        <div class="slide content-slide">
+            <h3>Step 3 Continued: CountVectorizer Code</h3>
+            <div class="code-example"><span class="comment"># Create a CountVectorizer object with specific parameters</span>
+vectorizer = CountVectorizer(
+    max_df<span class="operator">=</span><span class="highlight">0.95</span>,      <span class="comment"># Ignore terms appearing in >95% of documents</span>
+                        <span class="comment"># (too common to be useful, like "said")</span>
+    min_df<span class="operator">=</span><span class="highlight">2</span>,          <span class="comment"># Ignore terms appearing in <2 documents</span>
+                        <span class="comment"># (too rare, possibly typos)</span>
+    stop_words<span class="operator">=</span>stop_words  <span class="comment"># Remove common words like "the", "is"</span>
+)
+
+<span class="comment"># Transform our text data into a document-term matrix</span>
+<span class="comment"># This is where the actual counting happens!</span>
+doc_term_matrix = vectorizer.<span class="highlight">fit_transform</span>(df['Text'])
+
+<span class="comment"># Check the dimensions of our matrix</span>
+print(<span class="highlight">f"Matrix shape: {doc_term_matrix.shape}"</span>)
+<span class="comment"># Output: (15, 487) means 15 documents, 487 unique words</span>
+
+<span class="comment"># See which words made it into our vocabulary</span>
+vocabulary = vectorizer.<span class="highlight">get_feature_names_out</span>()
+print(<span class="highlight">f"Sample words: {list(vocabulary[:10])}"</span>)</div>
+
+            <h3>Understanding Each Parameter</h3>
+            <ul>
+                <li><strong>max_df=0.95</strong> - Filters out words that appear in more than 95% of documents (these are usually too generic)</li>
+                <li><strong>min_df=2</strong> - Filters out words that appear in fewer than 2 documents (these are often typos or irrelevant)</li>
+                <li><strong>fit_transform()</strong> - Two steps in one: learns the vocabulary from our text, then converts text to numbers</li>
+            </ul>
+        </div>
+
+        <!-- Slide 12: Understanding Matrix -->
+        <div class="slide content-slide">
+            <h3>Understanding the Document-Term Matrix</h3>
+            <p>The matrix that CountVectorizer creates is <strong>sparse</strong> - most cells contain zeros because most words don't appear in most documents.</p>
+
+            <div class="code-example"><span class="comment"># Examine the document-term matrix structure</span>
+print(<span class="highlight">f"Matrix type: {type(doc_term_matrix)}"</span>)
+<span class="comment"># Output: <class 'scipy.sparse.csr_matrix'></span>
+<span class="comment"># Sparse matrix = efficient storage for mostly-zero data</span>
+
+<span class="comment"># See how sparse our matrix is</span>
+total_cells = doc_term_matrix.shape[<span class="highlight">0</span>] * doc_term_matrix.shape[<span class="highlight">1</span>]
+nonzero_cells = doc_term_matrix.<span class="highlight">nnz</span>
+sparsity = (<span class="highlight">1</span> - (nonzero_cells / total_cells)) * <span class="highlight">100</span>
+print(<span class="highlight">f"Matrix sparsity: {sparsity:.1f}%"</span>)
+<span class="comment"># Typically 85-95% of cells are zero!</span>
+
+<span class="comment"># Look at word counts for first document</span>
+first_doc_vector = doc_term_matrix[<span class="highlight">0</span>].<span class="highlight">toarray</span>()[<span class="highlight">0</span>]
+print(<span class="highlight">f"Non-zero words in first speech: {(first_doc_vector > 0).sum()}"</span>)</div>
+
+            <div class="highlight-box">
+                <h4>Why Sparse Matrices Matter</h4>
+                <p>A typical 15×500 matrix would store 7,500 numbers. But if 90% are zeros, we only need to store ~750 actual values plus their positions. This saves memory and speeds up computation!</p>
+            </div>
+        </div>
+
+        <!-- Slide 13: Train LDA -->
+        <div class="slide content-slide">
+            <h3>Step 4: Train the LDA Model</h3>
+            <div class="code-example"><span class="comment"># Initialize the LDA model with our chosen number of topics</span>
+lda_model = LatentDirichletAllocation(
+    n_components<span class="operator">=</span><span class="highlight">5</span>,        <span class="comment"># Number of topics to discover</span>
+                            <span class="comment"># This is a hyperparameter we choose</span>
+    random_state<span class="operator">=</span><span class="highlight">42</span>,       <span class="comment"># Set seed for reproducibility</span>
+                            <span class="comment"># Same data = same results every time</span>
+    max_iter<span class="operator">=</span><span class="highlight">20</span>,            <span class="comment"># Maximum iterations for convergence</span>
+    learning_method<span class="operator">=</span>'online'  <span class="comment"># Use online learning (faster for large datasets)</span>
+)
+
+<span class="comment"># Fit the model to our document-term matrix</span>
+<span class="comment"># This is where LDA discovers the topics!</span>
+lda_model.<span class="highlight">fit</span>(doc_term_matrix)
+
+<span class="comment"># The model has now learned:</span>
+<span class="comment"># 1. What words belong to each topic (stored in components_)</span>
+<span class="comment"># 2. What mix of topics each document contains</span>
+
+print("Model training complete!")</div>
+
+            <h3>Key Parameters Explained</h3>
+            <ul>
+                <li><strong>n_components</strong> - How many topics to find. Requires experimentation!</li>
+                <li><strong>random_state</strong> - Makes results reproducible (same random initialization each time)</li>
+                <li><strong>max_iter</strong> - How many times to refine the topic assignments</li>
+                <li><strong>learning_method='online'</strong> - Updates parameters incrementally (faster than 'batch')</li>
+            </ul>
+        </div>
+
+        <!-- Slide 14: LDA Math -->
+        <div class="slide content-slide">
+            <h3>How LDA Works: The Math</h3>
+            <p>LDA uses <strong>probabilistic modeling</strong> to discover topics. Here's the intuition:</p>
+
+            <div class="math-box">
+                <h4>The Generative Story</h4>
+                <p>LDA assumes documents are created through this random process:</p>
+                <ol style="margin-top: 15px; line-height: 2;">
+                    <li>Pick a distribution of topics for this document<br>
+                    <em>e.g., 70% economy, 30% healthcare</em></li>
+                    <li>For each word in the document:
+                        <ul style="margin-top: 10px;">
+                            <li>Choose a topic based on the distribution</li>
+                            <li>Choose a word from that topic's word distribution</li>
+                        </ul>
+                    </li>
+                </ol>
+                <div class="math-formula" style="margin-top: 25px;">
+                    P(word | document) = Σ P(word | topic) × P(topic | document)
+                </div>
+                <p style="margin-top: 15px; text-align: center; font-style: italic;">LDA works backwards from observed words to infer the hidden topics</p>
+            </div>
+
+            <h3>What LDA Learns</h3>
+            <div class="two-column">
+                <div class="column">
+                    <h4>Topic-Word Distribution</h4>
+                    <p>For each topic, what's the probability of each word?</p>
+                    <p style="margin-top: 10px; font-size: 0.95rem;">Topic 0: economy(0.08), jobs(0.07), growth(0.06)...</p>
+                </div>
+                <div class="column">
+                    <h4>Document-Topic Distribution</h4>
+                    <p>For each document, what's the probability of each topic?</p>
+                    <p style="margin-top: 10px; font-size: 0.95rem;">Doc 1: Topic0(0.65), Topic1(0.25), Topic2(0.10)...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Interpret Topics -->
+        <div class="slide content-slide">
+            <h3>Step 5: Interpret Topics</h3>
+            <div class="code-example"><span class="comment"># Function to display the top words for each discovered topic</span>
+def <span class="highlight">display_topics</span>(model, feature_names, no_top_words):
+    """
+    Shows the most important words for each topic
+    
+    Parameters:
+    - model: The fitted LDA model
+    - feature_names: List of words in our vocabulary
+    - no_top_words: How many top words to show per topic
+    """
+    <span class="comment"># Loop through each topic</span>
+    for topic_idx, topic in <span class="highlight">enumerate</span>(model.components_):
+        <span class="comment"># model.components_ shape: (n_topics, n_words)</span>
+        <span class="comment"># Each row is a topic, values are word weights</span>
+        
+        print(<span class="highlight">f"Topic {topic_idx}:"</span>)
+        
+        <span class="comment"># Get indices of top words (highest weights)</span>
+        <span class="comment"># argsort() sorts indices by value, [-no_top_words:] gets top N</span>
+        <span class="comment"># [::-1] reverses to show highest first</span>
+        top_word_indices = topic.<span class="highlight">argsort</span>()[<span class="operator">-</span>no_top_words <span class="operator">-</span> <span class="highlight">1</span>:<span class="operator">-</span><span class="highlight">1</span>]
+        
+        <span class="comment"># Get the actual words and join them</span>
+        top_words = [feature_names[i] for i in top_word_indices]
+        print(" ".<span class="highlight">join</span>(top_words))
+        print()  <span class="comment"># Blank line between topics</span>
+
+<span class="comment"># Call the function to see our topics!</span>
+<span class="highlight">display_topics</span>(lda_model, 
+               vectorizer.<span class="highlight">get_feature_names_out</span>(), 
+               <span class="highlight">10</span>)  <span class="comment"># Show top 10 words per topic</span></div>
+        </div>
+
+        <!-- Slide 16: Example Topics -->
+        <div class="slide content-slide">
+            <h3>Example: Discovered Topics</h3>
+            <p>Here's what LDA discovered from our 15 political speeches:</p>
+
+            <div class="highlight-box">
+                <h4>Topic 0: Economic Policy</h4>
+                <p><strong>Top words:</strong> economy, jobs, growth, market, employment, business, trade, industry, workers, prosperity</p>
+                <p style="margin-top: 10px; font-style: italic; color: #555;">Interpretation: Speeches focused on job creation and economic development</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Topic 1: Environmental Issues</h4>
+                <p><strong>Top words:</strong> climate, environment, energy, emissions, renewable, sustainability, planet, carbon, green, future</p>
+                <p style="margin-top: 10px; font-style: italic; color: #555;">Interpretation: Climate change and green energy transition</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Topic 2: Healthcare Reform</h4>
+                <p><strong>Top words:</strong> healthcare, medical, patients, insurance, hospitals, care, health, treatment, coverage, doctors</p>
+                <p style="margin-top: 10px; font-style: italic; color: #555;">Interpretation: Healthcare system and medical policy discussions</p>
+            </div>
+
+            <div class="highlight-box warning">
+                <h4>💡 Student Challenge</h4>
+                <p>Try running the model with different values for n_components (3, 5, 7, 10). How does this affect topic coherence and interpretability?</p>
+            </div>
+        </div>
+
+        <!-- Slide 17: Part 2 Intro -->
+        <div class="slide content-slide">
+            <h3>Part 2: Sentiment Analysis</h3>
+            <div class="highlight-box tip">
+                <h4>What You'll Learn</h4>
+                <ul>
+                    <li>How VADER sentiment analysis works</li>
+                    <li>Applying sentiment scoring to text data</li>
+                    <li>Grouping and comparing sentiment across categories</li>
+                    <li>Creating visualizations to communicate findings</li>
+                </ul>
+            </div>
+
+            <p style="font-size: 1.2rem; margin-top: 30px;">We'll analyze social commentary about policy decisions and compare sentiment across different sources (news outlets, think tanks, social media).</p>
+        </div>
+
+        <!-- Slide 18: What is Sentiment Analysis -->
+        <div class="slide content-slide">
+            <h3>What is Sentiment Analysis?</h3>
+            <p><strong>Sentiment analysis</strong> quantifies the emotional tone or opinion expressed in text, transforming qualitative data into measurable scores.</p>
+
+            <h3>VADER (Valence Aware Dictionary and sEntiment Reasoner)</h3>
+            <p>A lexicon and rule-based sentiment analyzer specifically designed for social media text.</p>
+
+            <h3>Why VADER?</h3>
+            <ul>
+                <li><strong>Pre-trained</strong> - No need to train a model, works immediately</li>
+                <li><strong>Social media optimized</strong> - Handles slang, emoticons, capitalization</li>
+                <li><strong>Fast</strong> - Processes thousands of texts per second</li>
+                <li><strong>Interpretable</strong> - Returns clear positive/negative scores</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h4>VADER Output</h4>
+                <p><strong>Compound Score:</strong> Single metric from -1 (most negative) to +1 (most positive)</p>
+                <p style="margin-top: 12px;"><strong>Also provides:</strong> positive score, neutral score, negative score (each 0-1, sum to 1)</p>
+            </div>
+        </div>
+
+        <!-- Slide 19: How VADER Works -->
+        <div class="slide content-slide">
+            <h3>VADER: How It Works</h3>
+            <p>VADER uses a <strong>lexicon</strong> (dictionary) of ~7,500 words rated for sentiment, plus rules to modify scores based on context.</p>
+
+            <h3>VADER's Intelligence</h3>
+            <div class="two-column">
+                <div class="column">
+                    <h4>Punctuation</h4>
+                    <p>"Good" → neutral-positive</p>
+                    <p>"Good!" → more positive</p>
+                    <p>"Good!!!" → very positive</p>
+                </div>
+                <div class="column">
+                    <h4>Capitalization</h4>
+                    <p>"good" → positive</p>
+                    <p>"GOOD" → more positive</p>
+                    <p>"REALLY GOOD" → very positive</p>
+                </div>
+            </div>
+
+            <div class="two-column" style="margin-top: 20px;">
+                <div class="column">
+                    <h4>Degree Modifiers</h4>
+                    <p>"good" → +2.0</p>
+                    <p>"very good" → +2.5</p>
+                    <p>"absolutely good" → +3.0</p>
+                </div>
+                <div class="column">
+                    <h4>Negations</h4>
+                    <p>"good" → positive</p>
+                    <p>"not good" → negative</p>
+                    <p>"not bad" → slightly positive</p>
+                </div>
+            </div>
+
+            <div class="highlight-box tip">
+                <h4>Emoticons & Emoji</h4>
+                <p>VADER recognizes :-) :( :D and modern emoji 😊 😢 😡</p>
+            </div>
+        </div>
+
+        <!-- Slide 20: Sentiment Code -->
+        <div class="slide content-slide">
+            <h3>Sentiment Analysis: The Code</h3>
+            <div class="code-example"><span class="comment"># Import required libraries</span>
+import pandas as pd
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+<span class="comment"># Load the social commentary data</span>
+<span class="comment"># CSV contains: Comment (text) and Source (category)</span>
+df = pd.<span class="highlight">read_csv</span>('social_commentary.csv')
+
+<span class="comment"># Initialize the VADER sentiment analyzer</span>
+<span class="comment"># This loads the pre-trained lexicon</span>
+sia = <span class="highlight">SentimentIntensityAnalyzer</span>()
+
+<span class="comment"># Define a function to get sentiment score for one text</span>
+def <span class="highlight">get_sentiment</span>(text):
+    """
+    Returns the compound sentiment score for a given text
+    
+    The compound score is normalized between -1 and +1:
+    - Positive values indicate positive sentiment
+    - Negative values indicate negative sentiment
+    - Values near 0 are neutral
+    """
+    scores = sia.<span class="highlight">polarity_scores</span>(text)
+    return scores['compound']  <span class="comment"># Extract just the compound score</span>
+
+<span class="comment"># Apply sentiment analysis to all comments</span>
+<span class="comment"># .apply() runs our function on each row</span>
+df['sentiment'] = df['Comment'].<span class="highlight">apply</span>(get_sentiment)
+
+<span class="comment"># Look at the results</span>
+print(df[['Comment', 'sentiment']].<span class="highlight">head</span>())</div>
+        </div>
+
+        <!-- Slide 21: Understanding VADER Scoring -->
+        <div class="slide content-slide">
+            <h3>Understanding VADER Scoring</h3>
+            <div class="code-example"><span class="comment"># Let's examine VADER's output in detail for a sample comment</span>
+sample_text = "This policy is absolutely fantastic! It will help so many people."
+
+<span class="comment"># Get all four scores (not just compound)</span>
+all_scores = sia.<span class="highlight">polarity_scores</span>(sample_text)
+
+print(<span class="highlight">f"Text: {sample_text}"</span>)
+print(<span class="highlight">f"Positive: {all_scores['pos']:.3f}"</span>)   <span class="comment"># Proportion of positive words</span>
+print(<span class="highlight">f"Neutral:  {all_scores['neu']:.3f}"</span>)   <span class="comment"># Proportion of neutral words</span>
+print(<span class="highlight">f"Negative: {all_scores['neg']:.3f}"</span>)   <span class="comment"># Proportion of negative words</span>
+print(<span class="highlight">f"Compound: {all_scores['compound']:.3f}"</span>)  <span class="comment"># Overall score (-1 to +1)</span>
+
+<span class="comment"># Output example:</span>
+<span class="comment"># Positive: 0.588</span>
+<span class="comment"># Neutral:  0.412</span>
+<span class="comment"># Negative: 0.000</span>
+<span class="comment"># Compound: 0.872  ← Very positive!</span></div>
+
+            <h3>Interpreting Compound Scores</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Score Range</th>
+                        <th>Classification</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>≥ 0.05</td>
+                        <td>Positive</td>
+                        <td>"This is good news for everyone!"</td>
+                    </tr>
+                    <tr>
+                        <td>-0.05 to 0.05</td>
+                        <td>Neutral</td>
+                        <td>"The meeting is scheduled for Tuesday."</td>
+                    </tr>
+                    <tr>
+                        <td>≤ -0.05</td>
+                        <td>Negative</td>
+                        <td>"This policy is a complete disaster."</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 22: Categorical Analysis -->
+        <div class="slide content-slide">
+            <h3>Categorical Analysis & Visualization</h3>
+            <div class="code-example"><span class="comment"># Group comments by their source and calculate average sentiment</span>
+sentiment_by_source = df.<span class="highlight">groupby</span>('Source')['sentiment'].<span class="highlight">mean</span>()
+
+<span class="comment"># Sort from most negative to most positive</span>
+sentiment_by_source = sentiment_by_source.<span class="highlight">sort_values</span>()
+
+print("Average Sentiment by Source:")
+print(sentiment_by_source)
+
+<span class="comment"># Create a visualization using seaborn</span>
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+<span class="comment"># Set figure size</span>
+plt.<span class="highlight">figure</span>(figsize=(<span class="highlight">10</span>, <span class="highlight">6</span>))
+
+<span class="comment"># Create bar plot</span>
+<span class="comment"># x-axis: source names, y-axis: average sentiment</span>
+sns.<span class="highlight">barplot</span>(
+    x=sentiment_by_source.index,     <span class="comment"># Source names</span>
+    y=sentiment_by_source.values,    <span class="comment"># Average scores</span>
+    palette='RdYlGn'                 <span class="comment"># Red→Yellow→Green color scheme</span>
+                                      <span class="comment"># (negative→neutral→positive)</span>
+)
+
+<span class="comment"># Add labels and title</span>
+plt.<span class="highlight">title</span>('Average Sentiment by Source', fontsize=<span class="highlight">16</span>, fontweight='bold')
+plt.<span class="highlight">ylabel</span>('Compound Sentiment Score', fontsize=<span class="highlight">12</span>)
+plt.<span class="highlight">xlabel</span>('Source', fontsize=<span class="highlight">12</span>)
+plt.<span class="highlight">xticks</span>(rotation=<span class="highlight">45</span>, ha='right')  <span class="comment"># Rotate labels for readability</span>
+
+<span class="comment"># Add a horizontal line at y=0 (neutral)</span>
+plt.<span class="highlight">axhline</span>(y=<span class="highlight">0</span>, color='gray', linestyle='--', alpha=<span class="highlight">0.5</span>)
+
+plt.<span class="highlight">tight_layout</span>()  <span class="comment"># Adjust spacing</span>
+plt.<span class="highlight">show</span>()</div>
+        </div>
+
+        <!-- Slide 23: Key Takeaways -->
+        <div class="slide content-slide">
+            <ul>
+                <li><strong>Unsupervised learning</strong> - Discovers themes without labeled data</li>
+                <li><strong>Bag-of-Words vectorization</strong> - Converts text to numerical word counts</li>
+                <li><strong>Probabilistic model</strong> - Uses probability distributions to infer hidden topics</li>
+                <li><strong>Requires experimentation</strong> - Number of topics (n_components) must be tuned</li>
+            </ul>
+
+            <h3>Sentiment Analysis (VADER)</h3>
+            <ul>
+                <li><strong>Lexicon-based</strong> - Uses pre-scored dictionary of words</li>
+                <li><strong>Context-aware</strong> - Handles punctuation, capitalization, negations</li>
+                <li><strong>Fast and interpretable</strong> - Clear compound scores from -1 to +1</li>
+                <li><strong>Perfect for categorical comparison</strong> - Group by demographics, sources, time periods</li>
+            </ul>
+
+            <div class="highlight-box warning">
+                <h4>💡 Advanced Challenges</h4>
+                <p><strong>Topic Modeling:</strong> Calculate topic coherence scores to evaluate different values of n_components objectively</p>
+                <p style="margin-top: 12px;"><strong>Sentiment Analysis:</strong> Create time series plots showing how sentiment changes over time for each source</p>
+            </div>
+        </div>
+
+        <!-- Slide 24: Resources -->
+        <div class="slide content-slide">
+            <div class="highlight-box tip">
+                <h4>📓 Topic Modeling (LDA)</h4>
+                <p>Complete implementation with political speeches dataset</p>
+                <p style="margin-top: 10px;"><a href="https://colab.research.google.com/drive/1a9-_xw8qK1pH__p_JkB-PN8s1ozbTF84" target="_blank">→ Open in Google Colab</a></p>
+            </div>
+
+            <div class="highlight-box tip">
+                <h4>💬 Sentiment Analysis</h4>
+                <p>VADER sentiment scoring with categorical visualizations</p>
+                <p style="margin-top: 10px;"><a href="https://colab.research.google.com/drive/1i7lptWXQMt7Z6V-5EdDUGL9bUrwWVAx6" target="_blank">→ Open in Google Colab</a></p>
+            </div>
+
+            <h3>Additional Resources</h3>
+            <ul>
+                <li><strong>Scikit-learn Documentation</strong> - sklearn.decomposition.LatentDirichletAllocation</li>
+                <li><strong>NLTK Documentation</strong> - Natural Language Toolkit guides and tutorials</li>
+                <li><strong>Seaborn Gallery</strong> - Visualization examples for inspiration</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h4>📧 Need Help?</h4>
+                <p><strong>Howard-Tilton Memorial Library</strong><br>
+                Tulane University</p>
+                <p style="margin-top: 15px;">Contact Research Services for consultations on Python, data analysis, or research data management.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function updateSlide() {
+            // Hide all slides
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            
+            // Update page indicator
+            document.getElementById('pageIndicator').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // Update selector
+            document.getElementById('pageSelector').value = currentSlide;
+            
+            // Update buttons
+            document.getElementById('prevBtn').disabled = (currentSlide === 0);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides - 1);
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            updateSlide();
+        }
+
+        function jumpToSlide(slideIndex) {
+            currentSlide = parseInt(slideIndex);
+            updateSlide();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+            
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                changeSlide(-1);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                currentSlide = 0;
+                updateSlide();
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                currentSlide = totalSlides - 1;
+                updateSlide();
+            }
+        });
+
+        // Initialize
+        window.addEventListener('load', function() {
+            updateSlide();
+        });
+    </script>
+</body>
+</html>
