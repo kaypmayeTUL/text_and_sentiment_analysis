@@ -430,25 +430,31 @@
                 <option value="4">5. What is Topic Modeling?</option>
                 <option value="5">6. Required Libraries for Topic Modeling</option>
                 <option value="6">7. Step 1: Load Your Corpus</option>
-                <option value="7">8. Step 2: Text Preprocessing</option>
-                <option value="8">9. Step 3: Vectorization - The Math Behind It</option>
-                <option value="9">10. Vectorization: Bag-of-Words Model Explained</option>
-                <option value="10">11. Step 3 Continued: CountVectorizer Code</option>
-                <option value="11">12. Understanding the Document-Term Matrix</option>
-                <option value="12">13. Step 4: Train the LDA Model</option>
-                <option value="13">14. How LDA Works: The Math</option>
-                <option value="14">15. Step 5: Interpret Topics</option>
-                <option value="15">16. Example: Discovered Topics</option>
-                <option value="16">17. Part 2: Sentiment Analysis</option>
-                <option value="17">18. What is Sentiment Analysis?</option>
-                <option value="18">19. VADER: How It Works</option>
-                <option value="19">20. Sentiment Analysis: The Code</option>
-                <option value="20">21. Understanding VADER Scoring</option>
-                <option value="21">22. Categorical Analysis & Visualization</option>
-                <option value="22">23. Key Takeaways</option>
-                <option value="23">24. Resources & Contact</option>
+                <option value="7">8. Step 2: Text Preprocessing (Basic)</option>
+                <option value="8">8A. Advanced Preprocessing: Stemming</option>
+                <option value="9">8B. Complete Preprocessing Pipeline</option>
+                <option value="10">8C. N-grams for Phrase Detection</option>
+                <option value="11">8D. Before and After Preprocessing</option>
+                <option value="12">9. Step 3: Vectorization - The Math Behind It</option>
+                <option value="13">10. Vectorization: Bag-of-Words Model Explained</option>
+                <option value="14">11. Step 3 Continued: CountVectorizer Code</option>
+                <option value="15">12. Understanding the Document-Term Matrix</option>
+                <option value="16">13. Step 4: Train the LDA Model</option>
+                <option value="17">14. How LDA Works: The Math</option>
+                <option value="18">15. Step 5: Interpret Topics</option>
+                <option value="19">16. Example: Discovered Topics</option>
+                <option value="20">16A. Evaluating Models: Perplexity</option>
+                <option value="21">16B. The Perplexity Paradox</option>
+                <option value="22">17. Part 2: Sentiment Analysis</option>
+                <option value="23">18. What is Sentiment Analysis?</option>
+                <option value="24">19. VADER: How It Works</option>
+                <option value="25">20. Sentiment Analysis: The Code</option>
+                <option value="26">21. Understanding VADER Scoring</option>
+                <option value="27">22. Categorical Analysis & Visualization</option>
+                <option value="28">23. Key Takeaways</option>
+                <option value="29">24. Resources & Contact</option>
             </select>
-            <div class="page-indicator" id="pageIndicator">1 / 24</div>
+            <div class="page-indicator" id="pageIndicator">1 / 30</div>
             <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
             <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
         </div>
@@ -500,34 +506,36 @@
         <!-- Slide 3: Datasets -->
         <div class="slide content-slide">
             <h3>Workshop Datasets</h3>
-            <p>We'll use two real-world datasets throughout this workshop. You can download them to follow along:</p>
+            <p>Download the datasets to follow along with the workshop:</p>
 
             <div class="highlight-box tip">
                 <h4>📊 Political Speeches Dataset</h4>
-                <p><strong>File:</strong> political_speeches.csv</p>
+                <p><strong>File:</strong> <code>data.csv</code> (or <code>data.xlsx</code>)</p>
                 <p><strong>Structure:</strong></p>
                 <ul>
-                    <li><strong>Speech_ID:</strong> Unique identifier for each speech</li>
-                    <li><strong>Speaker:</strong> Name of the political leader (Leader A, B, or C)</li>
-                    <li><strong>Text:</strong> Full text of the political speech</li>
+                    <li><strong>Speech_ID:</strong> Unique identifier (1-50)</li>
+                    <li><strong>Speaker:</strong> Political leader (Senator, Governor, Representative, Mayor)</li>
+                    <li><strong>Text:</strong> Full speech content (~56 words average)</li>
                 </ul>
-                <p><strong>Size:</strong> 15 political speeches across multiple policy topics</p>
-                <p><strong>Use:</strong> Topic modeling with LDA to discover themes like economy, climate, healthcare, infrastructure, and security</p>
-                <p style="margin-top: 15px;"><strong>📥 Download:</strong> <a href="https://tulane.box.com/s/apf4sqxan1b15qbk57dy7enkl8u4k3t1" target="_blank">Political Speeches Dataset</a></p>
+                <p><strong>Size:</strong> 50 political speeches covering diverse policy areas</p>
+                <p><strong>Topics:</strong> Economy & Jobs, Healthcare, Climate & Environment, Education, Infrastructure, National Security, Social Justice, Technology & Innovation, and more</p>
+                <p><strong>Use:</strong> Topic modeling with LDA to discover policy themes</p>
+                <p style="margin-top: 15px;"><strong>📥 Download:</strong> <a href="https://tulane.box.com/s/re0651df54nk6inc4px41ev8lvox84at" target="_blank">Topic Modeling Data</a></p>
             </div>
 
             <div class="highlight-box tip">
                 <h4>💬 Social Commentary Dataset</h4>
-                <p><strong>File:</strong> social_commentary.csv</p>
+                <p><strong>File:</strong> <code>data.csv</code></p>
                 <p><strong>Structure:</strong></p>
                 <ul>
-                    <li><strong>Comment:</strong> Text of social/political commentary about policies</li>
-                    <li><strong>Source:</strong> Category of where the comment originated (News Outlet A, News Outlet B, Think Tank A, Government Report X, Social Forum Z)</li>
+                    <li><strong>Comment:</strong> Text of social/political commentary</li>
+                    <li><strong>Source:</strong> Media source category</li>
                 </ul>
-                <p><strong>Size:</strong> 15 comments from different sources</p>
                 <p><strong>Use:</strong> Sentiment analysis with VADER to compare opinions across different media sources</p>
-                <p style="margin-top: 15px;"><strong>📥 Download:</strong> <a href="https://tulane.box.com/s/0d0ntev9dqzkw53n51n6ggtphdsw59f7" target="_blank">Social Commentary Dataset</a></p>
+                <p style="margin-top: 15px;"><strong>📥 Download:</strong> <a href="https://tulane.box.com/s/0d0ntev9dqzkw53n51n6ggtphdsw59f7" target="_blank">Sentiment Analysis Data</a></p>
             </div>
+
+            <p style="margin-top: 20px; font-style: italic;"><strong>⚠️ Important:</strong> Both datasets are named <code>data.csv</code>. Rename one file after downloading to avoid overwriting (e.g., <code>speeches_data.csv</code> and <code>sentiment_data.csv</code>).</p>
         </div>
 
         <!-- Slide 4: Part 1 Intro -->
@@ -621,7 +629,7 @@ from nltk.corpus import stopwords</div>
             <h3>Step 1: Load Your Corpus</h3>
             <div class="code-example"><span class="comment"># Load the corpus of political speeches from a CSV file</span>
 <span class="comment"># The CSV contains columns: Speech_ID, Speaker, Text</span>
-df = pd.<span class="highlight">read_csv</span>('political_speeches.csv')
+df = pd.<span class="highlight">read_csv</span>('data.csv')
 
 <span class="comment"># Examine the structure of our data</span>
 print(df.<span class="highlight">head</span>())
@@ -676,6 +684,150 @@ print(<span class="highlight">f"Examples: {stop_words[:20]}"</span>)
                     <p style="color: #388e3c; margin-top: 10px;">✓ Reveals actual themes!</p>
                 </div>
             </div>
+        </div>
+
+        <!-- Slide 8A: Advanced Preprocessing - Stemming -->
+        <div class="slide content-slide">
+            <h3>Advanced Preprocessing: Stemming</h3>
+            
+            <p><strong>Stemming</strong> reduces words to their root form by removing suffixes, which improves topic modeling by consolidating word variations.</p>
+
+            <div class="two-column">
+                <div class="column">
+                    <h4>What Stemming Does</h4>
+                    <p><strong>"policies"</strong> → "polici"</p>
+                    <p><strong>"running"</strong> → "run"</p>
+                    <p><strong>"families"</strong> → "famili"</p>
+                    <p><strong>"industries"</strong> → "industri"</p>
+                    <p><strong>"communities"</strong> → "commun"</p>
+                </div>
+                <div class="column">
+                    <h4>Why This Matters</h4>
+                    <p>Without stemming, LDA treats "policy", "policies", and "policymakers" as three separate words.</p>
+                    <p style="margin-top: 15px;">With stemming, they're all reduced to similar root forms, making topics clearer.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box tip">
+                <h4>Stemming vs. Lemmatization</h4>
+                <p><strong>Stemming</strong> (faster, simpler): "policies" → "polici", "running" → "run"</p>
+                <p><strong>Lemmatization</strong> (slower, more accurate): "policies" → "policy", "running" → "run"</p>
+                <p style="margin-top: 12px;">Stemming uses rule-based suffix removal. It's faster and works well for most topic modeling tasks.</p>
+            </div>
+        </div>
+
+        <!-- Slide 8B: Complete Preprocessing Pipeline -->
+        <div class="slide content-slide">
+            <h3>Complete Preprocessing Pipeline</h3>
+
+            <p>A comprehensive preprocessing pipeline includes multiple steps for optimal topic modeling:</p>
+
+            <div class="code-example"><span class="comment"># Import required libraries for advanced preprocessing</span>
+import re
+from nltk.stem import SnowballStemmer
+from nltk.tokenize import word_tokenize
+
+<span class="comment"># Initialize stemmer</span>
+stemmer = SnowballStemmer("english")
+stop_words = set(stopwords.words('english'))
+
+def <span class="highlight">preprocess_text</span>(text):
+    <span class="comment"># 1. Convert to lowercase</span>
+    text = text.lower()
+    
+    <span class="comment"># 2. Remove special characters and punctuation</span>
+    text = re.sub(r'[^a-zA-Z\\s]', '', text)
+    
+    <span class="comment"># 3. Tokenize into words</span>
+    tokens = word_tokenize(text)
+    
+    <span class="comment"># 4. Remove stop words and stem</span>
+    processed = [
+        stemmer.stem(word)
+        for word in tokens
+        if word not in stop_words and len(word) >= 3
+    ]
+    
+    return ' '.join(processed)</div>
+
+            <h3>Pipeline Steps</h3>
+            <ol>
+                <li><strong>Lowercasing</strong> - "Policy" and "policy" become identical</li>
+                <li><strong>Remove punctuation</strong> - Cleans noise from text</li>
+                <li><strong>Tokenization</strong> - Splits text into individual words</li>
+                <li><strong>Stop word removal</strong> - Removes "the", "is", "a", etc.</li>
+                <li><strong>Stemming</strong> - Reduces to root forms (fast, rule-based)</li>
+                <li><strong>Length filtering</strong> - Keeps only words with 3+ characters</li>
+            </ol>
+        </div>
+
+        <!-- Slide 8C: N-grams for Phrase Detection -->
+        <div class="slide content-slide">
+            <h3>N-grams: Capturing Multi-Word Phrases</h3>
+
+            <p><strong>N-grams</strong> allow us to capture important multi-word phrases that have specific meanings:</p>
+
+            <div class="two-column">
+                <div class="column">
+                    <h4>Unigrams (1-word)</h4>
+                    <p>"climate"</p>
+                    <p>"change"</p>
+                    <p>"renewable"</p>
+                    <p>"energy"</p>
+                    <p style="margin-top: 15px; color: #d32f2f;">❌ Loses phrase meaning</p>
+                </div>
+                <div class="column">
+                    <h4>Bigrams (2-word)</h4>
+                    <p>"climate change"</p>
+                    <p>"renewable energy"</p>
+                    <p>"healthcare system"</p>
+                    <p>"economic growth"</p>
+                    <p style="margin-top: 15px; color: #388e3c;">✓ Preserves phrase meaning</p>
+                </div>
+            </div>
+
+            <div class="code-example"><span class="comment"># Create CountVectorizer with bigrams</span>
+vectorizer = CountVectorizer(
+    max_df<span class="operator">=</span><span class="highlight">0.85</span>,          <span class="comment"># Ignore terms in >85% of documents</span>
+    min_df<span class="operator">=</span><span class="highlight">2</span>,             <span class="comment"># Ignore terms in <2 documents</span>
+    ngram_range<span class="operator">=</span>(<span class="highlight">1, 2</span>),   <span class="comment"># Include unigrams AND bigrams</span>
+    max_features<span class="operator">=</span><span class="highlight">1000</span>     <span class="comment"># Keep top 1000 features</span>
+)</div>
+
+            <div class="highlight-box">
+                <h4>Example Bigrams Captured</h4>
+                <p>"climate change", "renewable energy", "social security", "public health", "economic growth", "national security", "criminal justice"</p>
+            </div>
+        </div>
+
+        <!-- Slide 8D: Before and After Preprocessing -->
+        <div class="slide content-slide">
+            <h3>Preprocessing Example: Before & After</h3>
+
+            <div class="highlight-box warning">
+                <h4>Original Text</h4>
+                <p>"Healthcare costs are bankrupting American families and small businesses alike. We must expand access to affordable health insurance and lower prescription drug prices through negotiation. Preventive care should be free to catch diseases early and reduce long-term costs."</p>
+            </div>
+
+            <div class="highlight-box tip">
+                <h4>After Basic Preprocessing (stop words only)</h4>
+                <p>"Healthcare costs bankrupting American families small businesses alike expand access affordable health insurance lower prescription drug prices negotiation Preventive care free catch diseases early reduce long-term costs"</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>After Advanced Preprocessing (with stemming)</h4>
+                <p>"healthcar cost bankrupt american famili small busi alik expand access afford health insur lower prescript drug price negoti prevent care free catch diseas earli reduc long term cost"</p>
+                <p style="margin-top: 15px; font-style: italic;">Notice: "families" → "famili", "prices" → "price", "diseases" → "diseas", "costs" → "cost"</p>
+            </div>
+
+            <h3>Benefits</h3>
+            <ul>
+                <li>Consolidates "cost" and "costs" into single root "cost"</li>
+                <li>Groups "family" and "families" to "famili"</li>
+                <li>Cleaner, more focused vocabulary for LDA</li>
+                <li>Faster processing than lemmatization</li>
+                <li>Better topic coherence and interpretability</li>
+            </ul>
         </div>
 
         <!-- Slide 9: Vectorization Math -->
@@ -753,7 +905,7 @@ print(<span class="highlight">f"Examples: {stop_words[:20]}"</span>)
                         </tr>
                     </tbody>
                 </table>
-                <p style="margin-top: 20px;"><strong>Matrix dimensions:</strong> 15 speeches × ~500 unique words = 15×500 matrix</p>
+                <p style="margin-top: 20px;"><strong>Matrix dimensions:</strong> 50 speeches × ~800 unique words = 50×800 matrix</p>
             </div>
         </div>
 
@@ -775,7 +927,7 @@ doc_term_matrix = vectorizer.<span class="highlight">fit_transform</span>(df['Te
 
 <span class="comment"># Check the dimensions of our matrix</span>
 print(<span class="highlight">f"Matrix shape: {doc_term_matrix.shape}"</span>)
-<span class="comment"># Output: (15, 487) means 15 documents, 487 unique words</span>
+<span class="comment"># Output: (50, 800) means 50 documents, 800 unique words</span>
 
 <span class="comment"># See which words made it into our vocabulary</span>
 vocabulary = vectorizer.<span class="highlight">get_feature_names_out</span>()
@@ -844,8 +996,27 @@ print("Model training complete!")</div>
                 <li><strong>n_components</strong> - How many topics to find. Requires experimentation!</li>
                 <li><strong>random_state</strong> - Makes results reproducible (same random initialization each time)</li>
                 <li><strong>max_iter</strong> - How many times to refine the topic assignments</li>
-                <li><strong>learning_method='online'</strong> - Updates parameters incrementally (faster than 'batch')</li>
+                <li><strong>learning_method='online'</strong> - Updates parameters incrementally using mini-batches</li>
             </ul>
+
+            <div class="highlight-box tip">
+                <h4>Why Use Online Learning?</h4>
+                <p><strong>Two Learning Methods Available:</strong></p>
+                <ul style="margin-top: 10px;">
+                    <li><strong>'batch'</strong> - Processes all documents at once, updates once per iteration</li>
+                    <li><strong>'online'</strong> - Processes documents in mini-batches, updates incrementally</li>
+                </ul>
+                
+                <p style="margin-top: 15px;"><strong>Advantages of Online Learning:</strong></p>
+                <ul>
+                    <li><strong>Faster convergence</strong> - Often reaches good results with fewer passes through the data</li>
+                    <li><strong>Memory efficient</strong> - Doesn't need to load entire dataset into memory at once</li>
+                    <li><strong>Scalable</strong> - Essential for large datasets (1000s-millions of documents)</li>
+                    <li><strong>Streaming-ready</strong> - Can update model as new documents arrive</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>For our 50-document dataset,</strong> the difference is minimal, but online learning teaches you best practices for real research datasets that may contain thousands of articles, speeches, or social media posts.</p>
+            </div>
         </div>
 
         <!-- Slide 14: LDA Math -->
@@ -952,6 +1123,110 @@ def <span class="highlight">display_topics</span>(model, feature_names, no_top_w
             </div>
         </div>
 
+        <!-- Slide 16A: Evaluating Topic Models - Perplexity -->
+        <div class="slide content-slide">
+            <h3>Evaluating Topic Models: Perplexity</h3>
+            
+            <p><strong>Perplexity</strong> is a statistical measure of how well the model predicts the data. It quantifies the model's uncertainty.</p>
+
+            <div class="highlight-box">
+                <h4>📊 What is Perplexity?</h4>
+                <p><strong>Lower perplexity = Better model fit</strong></p>
+                <p style="margin-top: 10px;">Perplexity measures how "surprised" the model is by new text. A lower score means the model is less surprised and better predicts word patterns.</p>
+            </div>
+
+            <div class="code-example"><span class="comment"># Calculate perplexity for your trained model</span>
+perplexity_score = lda_model.<span class="highlight">perplexity</span>(doc_term_matrix)
+print(<span class="highlight">f"Model perplexity: {perplexity_score:.2f}"</span>)
+
+<span class="comment"># Lower values indicate better fit</span>
+<span class="comment"># Example: perplexity of 850 is better than 1200</span></div>
+
+            <h3>How to Use Perplexity</h3>
+            <ul>
+                <li><strong>Compare different models</strong> - Test 5 topics vs 10 topics vs 15 topics</li>
+                <li><strong>Compare preprocessing approaches</strong> - Basic vs. advanced preprocessing</li>
+                <li><strong>Not the only metric</strong> - Combine with human interpretation of topics</li>
+            </ul>
+
+            <div class="highlight-box warning">
+                <h4>⚠️ Important Caveat</h4>
+                <p>Lower perplexity doesn't always mean better topics! A model can be mathematically "good" but produce topics that humans find hard to interpret.</p>
+            </div>
+        </div>
+
+        <!-- Slide 16B: The Perplexity Paradox -->
+        <div class="slide content-slide">
+            <h3>The Perplexity Paradox</h3>
+            
+            <p><strong>Why might a basic model have better perplexity than an advanced model?</strong></p>
+
+            <div class="two-column">
+                <div class="column">
+                    <h4>Basic Preprocessing</h4>
+                    <p><strong>Lower perplexity ✓</strong></p>
+                    <p style="margin-top: 10px;">More vocabulary diversity</p>
+                    <ul style="font-size: 0.95rem;">
+                        <li>"policy" ≠ "policies" ≠ "policymakers"</li>
+                        <li>Model learns fine-grained word patterns</li>
+                        <li>Better statistical fit to training data</li>
+                    </ul>
+                    <p style="margin-top: 15px; color: #d32f2f;"><strong>But:</strong> Topics may be fragmented and harder to interpret</p>
+                </div>
+                <div class="column">
+                    <h4>Advanced Preprocessing (Stemming)</h4>
+                    <p><strong>Higher perplexity ✗</strong></p>
+                    <p style="margin-top: 10px;">Consolidated vocabulary</p>
+                    <ul style="font-size: 0.95rem;">
+                        <li>"policy" = "policies" = "polici"</li>
+                        <li>Model sees fewer distinct words</li>
+                        <li>More generalized, less precise fit</li>
+                    </ul>
+                    <p style="margin-top: 15px; color: #388e3c;"><strong>But:</strong> Topics are more coherent and easier to interpret</p>
+                </div>
+            </div>
+
+            <div class="highlight-box tip">
+                <h4>🎯 The Trade-off</h4>
+                <p><strong>Statistical fit vs. Human interpretability</strong></p>
+                <p style="margin-top: 10px;">Stemming reduces vocabulary, which can increase perplexity (worse statistical fit), but creates cleaner, more coherent topics that humans can actually use.</p>
+            </div>
+
+            <h3>Example Comparison</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Perplexity</th>
+                        <th>Topic Quality</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Basic (stop words only)</td>
+                        <td style="color: #388e3c; font-weight: bold;">750 ✓ Lower</td>
+                        <td>Topics mixed: "health", "healthcare", "healthier", "healthy"</td>
+                    </tr>
+                    <tr>
+                        <td>Advanced (with stemming)</td>
+                        <td style="color: #d32f2f;">890 ✗ Higher</td>
+                        <td style="color: #388e3c; font-weight: bold;">Clearer topics: all → "health"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box warning">
+                <h4>💡 Best Practice</h4>
+                <p><strong>Don't rely on perplexity alone!</strong> Use it as one metric among several:</p>
+                <ol>
+                    <li>Perplexity (statistical fit)</li>
+                    <li>Topic coherence scores (word co-occurrence)</li>
+                    <li><strong>Human evaluation</strong> (can you interpret the topics?)</li>
+                </ol>
+                <p style="margin-top: 12px;">The "best" model is one that produces interpretable, actionable topics for your research question.</p>
+            </div>
+        </div>
+
         <!-- Slide 17: Part 2 Intro -->
         <div class="slide content-slide">
             <h3>Part 2: Sentiment Analysis</h3>
@@ -1041,8 +1316,9 @@ import pandas as pd
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 <span class="comment"># Load the social commentary data</span>
-<span class="comment"># CSV contains: Comment (text) and Source (category)</span>
-df = pd.<span class="highlight">read_csv</span>('social_commentary.csv')
+<span class="comment"># Note: The downloaded file is named 'data.csv'</span>
+<span class="comment"># You may want to rename it to 'sentiment_data.csv' for clarity</span>
+df = pd.<span class="highlight">read_csv</span>('data.csv')
 
 <span class="comment"># Initialize the VADER sentiment analyzer</span>
 <span class="comment"># This loads the pre-trained lexicon</span>
@@ -1162,11 +1438,26 @@ plt.<span class="highlight">show</span>()</div>
 
         <!-- Slide 23: Key Takeaways -->
         <div class="slide content-slide">
+            <h3>Key Takeaways</h3>
+
+            <h3>Topic Modeling (LDA)</h3>
             <ul>
                 <li><strong>Unsupervised learning</strong> - Discovers themes without labeled data</li>
+                <li><strong>Advanced preprocessing essential</strong> - Stemming consolidates word variations for clearer topics</li>
+                <li><strong>N-grams capture phrases</strong> - Bigrams like "climate change" preserve meaningful multi-word concepts</li>
                 <li><strong>Bag-of-Words vectorization</strong> - Converts text to numerical word counts</li>
                 <li><strong>Probabilistic model</strong> - Uses probability distributions to infer hidden topics</li>
                 <li><strong>Requires experimentation</strong> - Number of topics (n_components) must be tuned</li>
+                <li><strong>Perplexity paradox</strong> - Lower perplexity doesn't always mean better topics; advanced preprocessing may increase perplexity but improve interpretability</li>
+            </ul>
+
+            <h3>Preprocessing Techniques</h3>
+            <ul>
+                <li><strong>Stemming</strong> - Reduces "policies", "policy" to root form "polici" (fast, rule-based)</li>
+                <li><strong>Stop word removal</strong> - Filters common words that don't contribute to meaning</li>
+                <li><strong>Lowercasing</strong> - Ensures "Economy" and "economy" are treated identically</li>
+                <li><strong>Punctuation removal</strong> - Cleans noise while preserving words</li>
+                <li><strong>N-grams</strong> - Captures important multi-word phrases</li>
             </ul>
 
             <h3>Sentiment Analysis (VADER)</h3>
@@ -1179,42 +1470,55 @@ plt.<span class="highlight">show</span>()</div>
 
             <div class="highlight-box warning">
                 <h4>💡 Advanced Challenges</h4>
-                <p><strong>Topic Modeling:</strong> Calculate topic coherence scores to evaluate different values of n_components objectively</p>
+                <p><strong>Topic Modeling:</strong> Try different preprocessing combinations - experiment with stemming vs. lemmatization, test various ngram_range values</p>
                 <p style="margin-top: 12px;"><strong>Sentiment Analysis:</strong> Create time series plots showing how sentiment changes over time for each source</p>
+                <p style="margin-top: 12px;"><strong>Both:</strong> Compare results with TF-IDF weighting instead of raw counts</p>
             </div>
         </div>
 
         <!-- Slide 24: Resources -->
         <div class="slide content-slide">
+            <h3>Resources & Contact</h3>
+            
             <div class="highlight-box tip">
-                <h4>📓 Topic Modeling (LDA)</h4>
-                <p>Complete implementation with political speeches dataset</p>
-                <p style="margin-top: 10px;"><a href="https://colab.research.google.com/drive/1a9-_xw8qK1pH__p_JkB-PN8s1ozbTF84" target="_blank">→ Open in Google Colab</a></p>
+                <h4>📓 Topic Modeling with LDA</h4>
+                <p><strong>Notebook:</strong> <code>topic_modeling_lda_advanced.ipynb</code></p>
+                <p>Advanced preprocessing with stemming, n-grams, and exploration-focused approach</p>
+                <p style="margin-top: 10px;"><strong>📥 Download Code:</strong> <a href="https://drive.google.com/file/d/1d1ez1GemRi3d5BVAnYmJNIUh2DE_qzw-/view?usp=sharing" target="_blank">Topic Modeling Notebook</a></p>
+                <p style="margin-top: 5px;"><strong>📥 Download Data:</strong> <a href="https://tulane.box.com/s/re0651df54nk6inc4px41ev8lvox84at" target="_blank">Political Speeches Dataset</a></p>
             </div>
 
             <div class="highlight-box tip">
-                <h4>💬 Sentiment Analysis</h4>
-                <p>VADER sentiment scoring with categorical visualizations</p>
-                <p style="margin-top: 10px;"><a href="https://colab.research.google.com/drive/1i7lptWXQMt7Z6V-5EdDUGL9bUrwWVAx6" target="_blank">→ Open in Google Colab</a></p>
+                <h4>💬 Sentiment Analysis with VADER</h4>
+                <p><strong>Notebook:</strong> <code>sentiment_analysis_vader.ipynb</code></p>
+                <p>Complete VADER implementation with visualizations and categorical comparisons</p>
+                <p style="margin-top: 10px;"><strong>📥 Download Code:</strong> <a href="https://drive.google.com/file/d/1J0KfWGcS5lqi2NVEfORIPc7g4JgWgz56/view?usp=sharing" target="_blank">Sentiment Analysis Notebook</a></p>
+                <p style="margin-top: 5px;"><strong>📥 Download Data:</strong> <a href="https://tulane.box.com/s/0d0ntev9dqzkw53n51n6ggtphdsw59f7" target="_blank">Social Commentary Dataset</a></p>
             </div>
+
+            <p style="margin-top: 15px; font-style: italic;"><strong>⚠️ Note:</strong> Both data files are named <code>data.csv</code>. Rename one after downloading to avoid overwriting.</p>
 
             <h3>Additional Resources</h3>
             <ul>
                 <li><strong>Scikit-learn Documentation</strong> - sklearn.decomposition.LatentDirichletAllocation</li>
                 <li><strong>NLTK Documentation</strong> - Natural Language Toolkit guides and tutorials</li>
                 <li><strong>Seaborn Gallery</strong> - Visualization examples for inspiration</li>
+                <li><strong>VADER GitHub</strong> - Original VADER sentiment analyzer repository</li>
             </ul>
 
             <div class="highlight-box">
-                <h4>📧 Need Help?</h4>
-                <p><strong>Howard-Tilton Memorial Library</strong><br>
+                <h4>📧 Questions or Need Support?</h4>
+                <p><strong>Kay P Maye</strong><br>
+                Librarian II & Scholarly Engagement Librarian<br>
+                Howard-Tilton Memorial Library<br>
                 Tulane University</p>
-                <p style="margin-top: 15px;">Contact Research Services for consultations on Python, data analysis, or research data management.</p>
+                <p style="margin-top: 15px;"><strong>Email:</strong> <a href="/cdn-cgi/l/email-protection#6d06000c14082d1918010c030843080918"><span class="__cf_email__" data-cfemail="bcd7d1ddc5d9fcc8c9d0ddd2d992d9d8c9">[email&#160;protected]</span></a></p>
+                <p style="margin-top: 10px;">Contact me for consultations on Python, data analysis, text mining, or research data management.</p>
             </div>
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
@@ -1275,15 +1579,13 @@ plt.<span class="highlight">show</span>()</div>
                 updateSlide();
             } else if (e.key === 'End') {
                 e.preventDefault();
-                currentSlide = totalSlides - 1;
+                            currentSlide = totalSlides - 1;
                 updateSlide();
             }
         });
 
         // Initialize
-        window.addEventListener('load', function() {
-            updateSlide();
-        });
+        updateSlide();
     </script>
 </body>
 </html>
