@@ -27,7 +27,7 @@ Undergraduate and graduate students in:
 
 ### Presentation
 
-- **`index.html`** - Interactive slide-based presentation
+- **`python_text_analysis_detailed.html`** - Interactive slide-based presentation
   - Navigate using arrow keys, spacebar, or navigation controls
   - 24 comprehensive slides covering both techniques
   - Detailed code explanations with inline comments
@@ -37,17 +37,20 @@ Undergraduate and graduate students in:
 ### Jupyter Notebooks
 
 #### 1. Topic Modeling with LDA
-- **File:** `topic_modeling_lda.ipynb`
+- **File:** `topic_modeling_lda_advanced.ipynb`
+- **Download:** [https://drive.google.com/file/d/1d1ez1GemRi3d5BVAnYmJNIUh2DE_qzw-/view?usp=sharing](https://drive.google.com/file/d/1d1ez1GemRi3d5BVAnYmJNIUh2DE_qzw-/view?usp=sharing)
 - **Purpose:** Complete walkthrough of discovering topics in political speeches
 - **Includes:**
   - Data loading and preprocessing
   - Text vectorization (Bag-of-Words model)
+  - Stemming and n-grams
   - LDA model training and interpretation
   - Experimenting with different numbers of topics
   - Document-topic distribution analysis
 
 #### 2. Sentiment Analysis with VADER
 - **File:** `sentiment_analysis_vader.ipynb`
+- **Download:** [https://drive.google.com/file/d/1J0KfWGcS5lqi2NVEfORIPc7g4JgWgz56/view?usp=sharing](https://drive.google.com/file/d/1J0KfWGcS5lqi2NVEfORIPc7g4JgWgz56/view?usp=sharing)
 - **Purpose:** Complete walkthrough of sentiment analysis on social commentary
 - **Includes:**
   - VADER sentiment scoring
@@ -59,8 +62,8 @@ Undergraduate and graduate students in:
 ### Datasets
 
 #### Political Speeches Dataset
-- **File:** `data.xlsx`
-- **Download:** [https://tulane.box.com/s/apf4sqxan1b15qbk57dy7enkl8u4k3t1](https://tulane.box.com/s/re0651df54nk6inc4px41ev8lvox84at)
+- **File:** `data.csv` (or `data.xlsx`)
+- **Download:** [https://tulane.box.com/s/re0651df54nk6inc4px41ev8lvox84at](https://tulane.box.com/s/re0651df54nk6inc4px41ev8lvox84at)
 - **Structure:**
   - `Speech_ID` - Unique identifier
   - `Speaker` - Political leader name
@@ -69,13 +72,15 @@ Undergraduate and graduate students in:
 - **Use:** Topic modeling to discover policy themes (economy, climate, healthcare, etc.)
 
 #### Social Commentary Dataset
-- **File:** `data.xlsx`
+- **File:** `data.csv`
 - **Download:** [https://tulane.box.com/s/0d0ntev9dqzkw53n51n6ggtphdsw59f7](https://tulane.box.com/s/0d0ntev9dqzkw53n51n6ggtphdsw59f7)
 - **Structure:**
   - `Comment` - Text of commentary
   - `Source` - Media source category
-- **Size:** 15 comments from different sources
+- **Size:** Social media comments from various sources
 - **Use:** Sentiment analysis to compare opinions across media types
+
+**⚠️ Important:** Both datasets are named `data.csv`. After downloading, rename one to avoid overwriting (e.g., `speeches_data.csv` and `sentiment_data.csv`).
 
 ---
 
@@ -83,7 +88,7 @@ Undergraduate and graduate students in:
 
 ### Option 1: View the Presentation
 
-1. Open `index.html` in any web browser
+1. Open `python_text_analysis_detailed.html` in any web browser
 2. Navigate through slides using:
    - Arrow keys (← →)
    - Spacebar (forward)
@@ -94,16 +99,28 @@ Undergraduate and graduate students in:
 
 **No installation required!**
 
-1. Go to [Google Colab](https://colab.research.google.com/)
-2. Upload the Jupyter notebook file:
+1. Download the notebooks:
+   - [Topic Modeling Notebook](https://drive.google.com/file/d/1d1ez1GemRi3d5BVAnYmJNIUh2DE_qzw-/view?usp=sharing)
+   - [Sentiment Analysis Notebook](https://drive.google.com/file/d/1J0KfWGcS5lqi2NVEfORIPc7g4JgWgz56/view?usp=sharing)
+
+2. Download the datasets:
+   - [Political Speeches Data](https://tulane.box.com/s/re0651df54nk6inc4px41ev8lvox84at)
+   - [Social Commentary Data](https://tulane.box.com/s/0d0ntev9dqzkw53n51n6ggtphdsw59f7)
+
+3. Go to [Google Colab](https://colab.research.google.com/)
+
+4. Upload the notebook:
    - Click `File` → `Upload notebook`
-   - Choose `topic_modeling_lda.ipynb` or `sentiment_analysis_vader.ipynb`
-3. Download the corresponding dataset using the links above
-4. Upload the CSV file to Colab:
+   - Choose the downloaded `.ipynb` file
+
+5. Upload the corresponding dataset:
    - Click the folder icon in the left sidebar
    - Click the upload button
-   - Select your CSV file
-5. Run the cells in order (Shift + Enter)
+   - Select the CSV file
+
+6. Run the cells in order (Shift + Enter)
+
+**⚠️ Important:** Both data files are named `data.csv`. Make sure you upload the correct dataset for each notebook!
 
 ### Option 3: Run Locally with Jupyter
 
@@ -238,12 +255,18 @@ Both notebooks are designed to work with any text data in CSV format:
 
 **Need help with your research project?**
 
-**Howard-Tilton Memorial Library**  
+**Kay P Maye**  
+Librarian II & Scholarly Engagement Librarian  
+Howard-Tilton Memorial Library  
 Tulane University
 
-- Research Services consultations available
-- Assistance with Python, data analysis, and research data management
-- One-on-one support for integrating these techniques into your workflow
+**Email:** [kmaye@tulane.edu](mailto:kmaye@tulane.edu)
+
+Available for consultations on:
+- Python programming and data analysis
+- Text mining and natural language processing
+- Research data management
+- Digital scholarship tools and methods
 
 **Library Website:** [library.tulane.edu](https://library.tulane.edu)  
 **Research Guides:** [libguides.tulane.edu](https://libguides.tulane.edu)
@@ -255,15 +278,18 @@ Tulane University
 ```
 workshop-materials/
 │
-├── index.html    # Interactive presentation (24 slides)
-├── topic_modeling_lda.ipynb              # Topic modeling Jupyter notebook
-├── sentiment_analysis_vader.ipynb        # Sentiment analysis Jupyter notebook
+├── python_text_analysis_detailed.html    # Interactive presentation (30 slides)
+├── topic_modeling_lda_advanced.ipynb     # Advanced topic modeling notebook
+├── sentiment_analysis_vader.ipynb        # Sentiment analysis notebook
 ├── README.md                             # This file
 │
-└── data/ (download separately)
-    ├── political_speeches.csv            # Topic modeling dataset
-    └── social_commentary.csv             # Sentiment analysis dataset
+└── data/
+    ├── data.csv (Topic Modeling)         # Political speeches dataset (50 speeches)
+    ├── data.xlsx (Topic Modeling)        # Same dataset in Excel format
+    └── data.csv (Sentiment Analysis)     # Social commentary dataset
 ```
+
+**⚠️ Note:** Both data files are named `data.csv`. Download them separately and rename one to avoid confusion (e.g., `speeches_data.csv` and `sentiment_data.csv`).
 
 ---
 
@@ -286,14 +312,14 @@ workshop-materials/
 
 ## ⚖️ License & Citation
 
-These materials are provided for educational purposes and are free to use.
+These materials are provided for educational purposes.
 
 **When using these materials, please cite:**
 
 ```
 Python for Text Analysis Workshop
 Howard-Tilton Memorial Library, Tulane University
-2026
+[Year]
 ```
 
 ---
@@ -328,3 +354,4 @@ nltk.download('vader_lexicon')
 **Last Updated:** February 2026  
 **Version:** 1.0
 
+For questions or feedback, please contact Howard-Tilton Memorial Library Research Services.
